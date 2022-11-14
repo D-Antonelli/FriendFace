@@ -25,6 +25,7 @@
 		8AE67308292250C100F1F1B0 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		8AE6730A2922515200F1F1B0 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		8AE6730C2922B04200F1F1B0 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		8AE6730E2922B14000F1F1B0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +60,7 @@
 			children = (
 				8AE672FA29224D4700F1F1B0 /* FriendFaceApp.swift */,
 				8AE672FC29224D4700F1F1B0 /* ContentView.swift */,
+				8AE6730E2922B14000F1F1B0 /* README.md */,
 				8AE6730C2922B04200F1F1B0 /* DetailView.swift */,
 				8AE6730A2922515200F1F1B0 /* Friend.swift */,
 				8AE672FE29224D4800F1F1B0 /* Assets.xcassets */,
