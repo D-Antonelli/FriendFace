@@ -6,25 +6,8 @@
 //
 
 import SwiftUI
+import Foundation
 
-struct Friend: Codable, Hashable {
-    let id: String
-    let isActive: Bool
-    let name: String
-    let age: Int16
-    let company: String
-    let email: String
-    let address: String
-    let about: String
-    let registered: String
-    let tags: [String]
-    let Friends: [Person]
-}
-
-struct Person: Codable, Hashable {
-    let id: String
-    let name: String
-}
 
 struct ContentView: View {
     @State private var friends = [Friend]()
@@ -32,16 +15,21 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(friends, id: \.self) { friend in
-                        LazyVStack {
+                LazyVStack(alignment: .leading) {
+                    NavigationLink {
+                        DetailView(friend: friend)
+                    } label: {
+                        VStack(alignment: .leading) {
                             Text("\(friend.name)")
+                            friend.isActive ? Text("Active") : Text("Offline")
                         }
                     }
-                    .task {
-                        await loadData()
-                        // data - error - loading
-                    }
+                }
+            }
+            .task {
+                await loadData()
+            }
             .navigationTitle("Friends")
-            
             
         }
         
@@ -49,17 +37,26 @@ struct ContentView: View {
     
     
     func loadData() async {
-        let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json")!
+        guard let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json") else {
+            print("Invalid url")
+            return
+        }
         
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
             
+            if let httpResponse = response as? HTTPURLResponse {
+                print(httpResponse.statusCode)
+            }
+            
             
             if let decodedResponse = try? JSONDecoder().decode([Friend].self, from: data) {
                 friends = decodedResponse
+            } else {
+                print("error decoding data")
             }
         } catch {
-            print("Invalid data")
+            print("error: \(error)")
         }
         
     }
