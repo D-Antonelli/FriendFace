@@ -7,15 +7,61 @@
 
 import SwiftUI
 
+struct Friend: Codable, Hashable {
+    let id: String
+    let isActive: Bool
+    let name: String
+    let age: Int16
+    let company: String
+    let email: String
+    let address: String
+    let about: String
+    let registered: String
+    let tags: [String]
+    let Friends: [Person]
+}
+
+struct Person: Codable, Hashable {
+    let id: String
+    let name: String
+}
+
 struct ContentView: View {
+    @State private var friends = [Friend]()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            List(friends, id: \.self) { friend in
+                        LazyVStack {
+                            Text("\(friend.name)")
+                        }
+                    }
+                    .task {
+                        await loadData()
+                        // data - error - loading
+                    }
+            .navigationTitle("Friends")
+            
+            
         }
-        .padding()
+        
+    }
+    
+    
+    func loadData() async {
+        let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json")!
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            
+            
+            if let decodedResponse = try? JSONDecoder().decode([Friend].self, from: data) {
+                friends = decodedResponse
+            }
+        } catch {
+            print("Invalid data")
+        }
+        
     }
 }
 
