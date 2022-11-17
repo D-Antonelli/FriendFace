@@ -60,9 +60,12 @@ extension CachedUser {
         return id ?? "Unknown"
     }
     
-    public var friendsArray: Array<CachedFriend> {
-        let set = cachedFriend ?? NSSet()
-        return Array(set as! Set<CachedFriend>)
+    public var friendsArray: [CachedFriend] {
+        let set = cachedFriend as? Set<CachedFriend> ?? []
+        
+        return set.sorted {
+            $0.wrappedName < $1.wrappedName
+        }
     }
 }
 
