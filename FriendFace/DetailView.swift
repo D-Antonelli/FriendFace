@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
-    let friend: Friend
+    let user: User
     
     var body: some View {
         ScrollView {
@@ -20,12 +20,12 @@ struct DetailView: View {
                         .font(.system(size: 120))
                         .foregroundColor(.accentColor)
                     
-                    Text("\(friend.name)")
+                    Text("\(user.name)")
                         .font(.largeTitle)
                         .bold()
                     
                     VStack(alignment: .center) {
-                        Text("\(friend.about)")
+                        Text("\(user.about)")
                         
                     }
                 }
@@ -33,15 +33,15 @@ struct DetailView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(alignment: .firstTextBaseline) {
                         Image(systemName: "building.2.fill")
-                        Text("Works at \(friend.company)")
+                        Text("Works at \(user.company)")
                     }
                     HStack(alignment: .firstTextBaseline) {
                         Image(systemName: "mail.fill")
-                        Text("\(friend.email)")
+                        Text("\(user.email)")
                     }
                     HStack(alignment: .firstTextBaseline) {
                         Image(systemName: "house.fill")
-                        Text("\(friend.address)")
+                        Text("\(user.address)")
                     }
                 }
                 Divider()
@@ -52,12 +52,12 @@ struct DetailView: View {
                         HStack(spacing: 20) {
                             
                             
-                            ForEach(friend.friends, id: \.self) { person in
+                            ForEach(user.friends, id: \.self) { friend in
                                 VStack {
                                     Image(systemName: "person.circle")
                                         .font(.largeTitle)
                                         .foregroundColor(.accentColor)
-                                    Text("\(person.name)")
+                                    Text("\(friend.name)")
                                     
                                 }
                                 

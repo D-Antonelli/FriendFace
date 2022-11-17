@@ -10,18 +10,18 @@ import Foundation
 
 
 struct ContentView: View {
-    @State private var friends = [Friend]()
+    @State private var users = [User]()
     
     var body: some View {
         NavigationView {
-            List(friends, id: \.self) { friend in
+            List(users, id: \.self) { user in
                 LazyVStack(alignment: .leading) {
                     NavigationLink {
-                        DetailView(friend: friend)
+                        DetailView(user: user)
                     } label: {
                         VStack(alignment: .leading) {
-                            Text("\(friend.name)")
-                            friend.isActive ? Text("Active") : Text("Offline")
+                            Text("\(user.name)")
+                            user.isActive ? Text("Active") : Text("Offline")
                         }
                     }
                 }
@@ -50,8 +50,8 @@ struct ContentView: View {
             }
             
             
-            if let decodedResponse = try? JSONDecoder().decode([Friend].self, from: data) {
-                friends = decodedResponse
+            if let decodedResponse = try? JSONDecoder().decode([User].self, from: data) {
+                users = decodedResponse
             } else {
                 print("error decoding data")
             }
