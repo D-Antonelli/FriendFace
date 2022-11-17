@@ -3,6 +3,7 @@
     <entity name="CachedFriend" representedClassName="CachedFriend" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CachedUser" inverseName="cachedFriend" inverseEntity="CachedUser"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
@@ -20,6 +21,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="registered" optional="YES" attributeType="String"/>
         <attribute name="tags" optional="YES" attributeType="String"/>
+        <relationship name="cachedFriend" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CachedFriend" inverseName="origin" inverseEntity="CachedFriend"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
