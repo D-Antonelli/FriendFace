@@ -10,10 +10,13 @@ import SwiftUI
 @main
 struct FriendFaceApp: App {
     @StateObject private var dataController = DataController()
+    @StateObject var users = UserMV()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(users: users)
                 .environment(\.managedObjectContext, dataController.container.viewContext)
+                .onAppear(perform: users.fetch)
         }
     }
 }

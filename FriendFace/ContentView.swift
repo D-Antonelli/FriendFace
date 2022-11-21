@@ -10,7 +10,7 @@ import Foundation
 
 
 struct ContentView: View {
-    @StateObject var users = UserMV()
+    @ObservedObject var users: UserMV
     
     var body: some View {
         NavigationView {
@@ -27,7 +27,6 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Friends")
-            .onAppear(perform: users.fetch)
         }
         
     }
@@ -35,6 +34,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(users: UserMV())
     }
 }
