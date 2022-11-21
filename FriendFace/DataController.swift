@@ -17,7 +17,7 @@ class DataController: ObservableObject {
                 fatalError("Unable to load persistent stores: \(error)")
             }
         }
-        
+        self.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
     }
     
 }

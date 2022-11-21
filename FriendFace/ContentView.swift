@@ -11,25 +11,51 @@ import Foundation
 
 struct ContentView: View {
     @ObservedObject var users: UserMV
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: []) var cachedData: FetchedResults<CachedUser>
+
     
     var body: some View {
         NavigationView {
-            List(users.users, id: \.self) { user in
+            List(cachedData, id: \.self) { data in
                 LazyVStack(alignment: .leading) {
                     NavigationLink {
-                        DetailView(user: user)
+                        DetailView(user: data)
                     } label: {
                         VStack(alignment: .leading) {
-                            Text("\(user.name)")
-                            user.isActive ? Text("Active") : Text("Offline")
+                            Text("\(data.wrappedName)")
+                            data.isActive ? Text("Active") : Text("Offline")
                         }
                     }
                 }
             }
             .navigationTitle("Friends")
+            .task {
+                await MainActor.run {
+                    cacheData()
+                }
+            }
         }
-        
     }
+    
+    func cacheData() {
+        for user in users.users {
+            let newUser = CachedUser(context: moc)
+            newUser.name = user.name
+            newUser.id = user.id
+
+            let friend = CachedFriend(context: moc)
+            friend.name = user.friends[0].name
+            friend.id = user.friends[0].id
+
+            friend.origin = newUser
+
+            try? moc.save()
+        }
+
+    }
+    
+
 }
 
 struct ContentView_Previews: PreviewProvider {

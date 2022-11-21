@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
-    let user: User
+    let user: CachedUser
     
     var body: some View {
         ScrollView {
@@ -20,12 +20,12 @@ struct DetailView: View {
                         .font(.system(size: 120))
                         .foregroundColor(.accentColor)
                     
-                    Text("\(user.name)")
+                    Text("\(user.wrappedName)")
                         .font(.largeTitle)
                         .bold()
                     
                     VStack(alignment: .center) {
-                        Text("\(user.about)")
+                        Text("\(user.wrappedAbout)")
                         
                     }
                 }
@@ -33,15 +33,15 @@ struct DetailView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(alignment: .firstTextBaseline) {
                         Image(systemName: "building.2.fill")
-                        Text("Works at \(user.company)")
+                        Text("Works at \(user.wrappedCompany)")
                     }
                     HStack(alignment: .firstTextBaseline) {
                         Image(systemName: "mail.fill")
-                        Text("\(user.email)")
+                        Text("\(user.wrappedEmail)")
                     }
                     HStack(alignment: .firstTextBaseline) {
                         Image(systemName: "house.fill")
-                        Text("\(user.address)")
+                        Text("\(user.wrappedAddress)")
                     }
                 }
                 Divider()
@@ -52,15 +52,15 @@ struct DetailView: View {
                         HStack(spacing: 20) {
                             
                             
-                            ForEach(user.friends, id: \.self) { friend in
+                            ForEach(user.friendsArray, id: \.self) { friend in
                                 VStack {
                                     Image(systemName: "person.circle")
                                         .font(.largeTitle)
                                         .foregroundColor(.accentColor)
-                                    Text("\(friend.name)")
-                                    
+                                    Text("\(friend.wrappedName)")
+
                                 }
-                                
+
                             }
                             
                         }
