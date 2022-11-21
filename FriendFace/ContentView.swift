@@ -10,11 +10,11 @@ import Foundation
 
 
 struct ContentView: View {
-    @State private var users = [User]()
+    @StateObject var users = UserMV()
     
     var body: some View {
         NavigationView {
-            List(users, id: \.self) { user in
+            List(users.users, id: \.self) { user in
                 LazyVStack(alignment: .leading) {
                     NavigationLink {
                         DetailView(user: user)
@@ -26,37 +26,8 @@ struct ContentView: View {
                     }
                 }
             }
-            .task {
-                await loadData()
-            }
             .navigationTitle("Friends")
-            
-        }
-        
-    }
-    
-    
-    func loadData() async {
-        guard let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json") else {
-            print("Invalid url")
-            return
-        }
-        
-        do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            
-            if let httpResponse = response as? HTTPURLResponse {
-                print(httpResponse.statusCode)
-            }
-            
-            
-            if let decodedResponse = try? JSONDecoder().decode([User].self, from: data) {
-                users = decodedResponse
-            } else {
-                print("error decoding data")
-            }
-        } catch {
-            print("error: \(error)")
+            .onAppear(perform: users.fetch)
         }
         
     }

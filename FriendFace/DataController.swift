@@ -17,6 +17,7 @@ class DataController: ObservableObject {
                 fatalError("Unable to load persistent stores: \(error)")
             }
         }
+        
     }
     
 }
